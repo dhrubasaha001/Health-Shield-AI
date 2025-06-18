@@ -53,7 +53,7 @@ HealthShield/
 │ └── result.html
 └── static/ (optional for CSS)
 
-```## 📦 Installation & Run
+## 📦 Installation & Run
 
 ```bash
 # Clone this repo
