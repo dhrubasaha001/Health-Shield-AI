@@ -69,3 +69,23 @@ pip install -r requirements.txt
 
 # Run the app
 python app.py
+
+```
+###📚 Project Highlights
+🔬 Demonstrates practical use of ML in healthcare
+
+🧪 Simulated data for safe experimentation
+
+👩‍💻 Designed for students, beginners, and demos
+
+🎯 Good starting point for deeper AI health apps
+
+---
+
+## 📛 Trademark & Credits
+
+**HealthShield AI™** is a registered project idea and codebase created by **Dhruba Saha**.  
+Unauthorized use, rebranding, or reproduction without proper credit is strictly prohibited.
+
+© 2025 Dhruba Saha. All rights reserved.
+
