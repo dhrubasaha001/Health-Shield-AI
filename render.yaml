@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: health-shield-ai
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app.py"
+    plan: free
+    region: frankfurt
+    runtime: python
+    repo: https://github.com/dhrubasaha001/Health-Shield-AI
+    branch: main
+    autoDeploy: true
