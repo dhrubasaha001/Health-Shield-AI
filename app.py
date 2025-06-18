@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import joblib
+import os
 
 app = Flask(__name__)
 
@@ -21,11 +22,9 @@ def predict():
         bp = float(request.form.get('bp', 0))
         risk_type = request.form.get('risk_type')
 
-        # Initialize response
         result = "❌ Invalid risk type selected."
         suggestions = []
 
-        # Risk prediction logic
         if risk_type == 'diabetes':
             input_data = [[age, bmi, glucose, bp]]
             prediction = diabetes_model.predict(input_data)[0]
@@ -67,7 +66,6 @@ def predict():
                     "Do regular heart checkups"
                 ]
 
-        # Debug logs for development
         print("====== BACKEND LOG ======")
         print("Risk Type:", risk_type)
         print("Prediction:", prediction)
@@ -89,4 +87,5 @@ def predict():
         return render_template("result.html", result=f"❌ Error: {e}", suggestions=[])
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
