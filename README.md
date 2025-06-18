@@ -57,7 +57,7 @@ HealthShield/
 
 ```bash
 # Clone this repo
-git clone https://github.com/yourusername/HealthShieldAI
+git clone https://github.com/dhrubasaha001/HealthShieldAI
 cd HealthShieldAI
 
 # Create virtual environment (optional)
