@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prediction Result</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <style>
+    .glass {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-green-200 via-blue-100 to-purple-200 min-h-screen flex items-center justify-center p-6">
+
+  <div id="report-content" class="glass rounded-3xl shadow-2xl p-8 max-w-3xl w-full text-center relative">
+
+    <!-- ✨ Banner -->
+    <img src="../static/images/Gemini_Generated_Image_kolo6dkolo6dkolo.png" alt="Result" class="w-64 mx-auto mb-4 hover:scale-110 transition duration-300"/>
+    <h1 class="text-4xl font-extrabold text-purple-800 mb-4 drop-shadow-md">🩺 Health Risk Result</h1>
+
+    <!-- 🧠 Prediction -->
+    <div class="text-2xl font-semibold p-4 rounded-xl 
+                {{ 'text-green-800 bg-green-100' if 'safe' in result.lower() 
+                   else 'text-red-800 bg-red-100' }}
+                shadow-inner transition duration-300 hover:scale-105">
+      {{ result }}
+    </div>
+
+    <!-- 🤖 AI-Smart Suggestions -->
+{% if suggestions|length > 0 %}
+<div class="bg-white text-gray-800 p-4 mt-6 rounded-xl shadow-md text-left">
+  <h2 class="text-lg font-bold mb-2">🤖 Smart AI Tips Based on Your Data:</h2>
+  <ul class="list-disc ml-6 text-sm">
+    {% for tip in suggestions %}
+      <li>{{ tip }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+
+    <!-- 📊 Chart -->
+    <div class="mt-8 w-full max-w-md mx-auto">
+      <h2 class="text-lg font-bold text-gray-800 mb-2">📈 Your Health Metrics Overview</h2>
+      <div class="relative h-64">
+        <canvas id="healthChart" class="w-full h-full"></canvas>
+      </div>
+    </div>
+
+    <!-- 📄 Download PDF -->
+    <button onclick="downloadPDF()" class="mt-6 mb-2 px-6 py-2 bg-green-500 hover:bg-green-700 text-white font-semibold rounded-full transition duration-300 transform hover:scale-110 shadow-md">
+      📄 Download PDF
+    </button>
+
+    <!-- 🔁 Button -->
+    <a href="/" class="inline-block mt-4 px-6 py-2 bg-purple-500 hover:bg-purple-700 text-white font-semibold rounded-full transition duration-300 transform hover:scale-110 shadow-md">
+      🔁 Check Another
+    </a>
+
+    <!-- 🌈 Footer -->
+    <div class="absolute bottom-2 right-4 text-xs text-gray-500 italic">Made with 💖 by HealthShield-AI</div>
+  </div>
+
+  <!-- 📊 Chart Script -->
+  <script>
+    const ctx = document.getElementById('healthChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Age', 'BMI', 'Glucose', 'Blood Pressure'],
+        datasets: [{
+          label: 'Your Values',
+          data: [
+            {{ age|default(0) }},
+            {{ bmi|default(0) }},
+            {{ glucose|default(0) }},
+            {{ bp|default(0) }}
+          ],
+          backgroundColor: ['#a78bfa', '#f472b6', '#60a5fa', '#34d399'],
+          borderRadius: 10,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Values'
+            }
+          }
+        }
+      }
+    });
+
+    function downloadPDF() {
+      const element = document.getElementById("report-content");
+      const opt = {
+        margin: 0.3,
+        filename: 'HealthShield_Report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+
+</body>
+</html>
